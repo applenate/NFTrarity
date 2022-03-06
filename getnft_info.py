@@ -1,15 +1,21 @@
 #coding:UTF-8
+import os
 from requests_html import HTMLSession
 import json
 import xlsxwriter as xw
 import time
 import datetime
+'''
+IPFS browser:
+http://cloudflare-ipfs.com/ipfs/
+https://ipfs.io/ipfs/
+https://ikzttp.mypinata.cloud/ipfs/
+'''
 
-
-uri = "https://ipfs.io/ipfs/QmZhwRjhMdU9RRUzwMx5CGVDtHhBmZMRBTKridY1WTgzHG/"
-#填写token个数,冷兔是7502,tos
-num_tokens = 8888
-fileName = 'nfts_tos.xlsx' #导出文件名
+uri = "https://ikzttp.mypinata.cloud/ipfs/QmQFkLSQysj94s5GvTHPyzTxrawwtjgiiYS2TBLgrvw8CW/"
+#填写token个数,冷兔是7502,azuki 10k,QmQFkLSQysj94s5GvTHPyzTxrawwtjgiiYS2TBLgrvw8CW
+num_tokens = 10000
+fileName = 'nfts_azuki.xlsx' #导出文件名
 session = HTMLSession()
 seprate ='__________________________________________________________________________\n'
 
@@ -127,7 +133,10 @@ data_traits = {
 def getNFT_info(tokenid,uri):
 
 	infos = {} #属性详情
-	url = uri+str(tokenid)+".json"
+
+	#定义URI格式，有的需要追加".json"
+	url = uri+str(tokenid)
+	
 	req_text = session.get(url).text
 	req = json.loads(req_text)
 	# print(url)
@@ -434,12 +443,22 @@ print("将保存为文件：  "+fileName)
 #统计有属性的token个数
 num_has_attributes = 0 
 
+
 for i in range (num_tokens):
+
 	data[i] = getNFT_info(i,uri)
 	if data[i]["has_attributes"] == 1:
 		num_has_attributes += 1
 	print(">  "+str(i))
 	# time.sleep(0.3)
+	if (i >0 ) & (i % 500 == 0):
+		jindu = (( i + 1 )/num_tokens)  #float 显示进度
+		time_now = time.time() 
+		time_used = time_now - time_start
+		time_remain = ( time_used / jindu ) * (1 - jindu) + 5
+		print("-  sleep 5 seconds   预计还需 ",datetime.timedelta(seconds=int(time_remain)),"   已用时 ",datetime.timedelta(seconds=int(time_used)))
+		time.sleep(5)
+
 print(seprate)
 
 #统计属性类型为空的个数
