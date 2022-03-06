@@ -10,6 +10,7 @@ IPFS browser:
 http://cloudflare-ipfs.com/ipfs/
 https://ipfs.io/ipfs/
 https://ikzttp.mypinata.cloud/ipfs/
+https://gateway.pinata.cloud/ipfs/
 '''
 
 uri = "https://ikzttp.mypinata.cloud/ipfs/QmQFkLSQysj94s5GvTHPyzTxrawwtjgiiYS2TBLgrvw8CW/"
@@ -136,7 +137,7 @@ def getNFT_info(tokenid,uri):
 
 	#定义URI格式，有的需要追加".json"
 	url = uri+str(tokenid)
-	
+
 	req_text = session.get(url).text
 	req = json.loads(req_text)
 	# print(url)
@@ -451,13 +452,13 @@ for i in range (num_tokens):
 		num_has_attributes += 1
 	print(">  "+str(i))
 	# time.sleep(0.3)
-	if (i >0 ) & (i % 500 == 0):
+	if (i >0 ) & (i % 50 == 0):
 		jindu = (( i + 1 )/num_tokens)  #float 显示进度
 		time_now = time.time() 
 		time_used = time_now - time_start
-		time_remain = ( time_used / jindu ) * (1 - jindu) + 5
-		print("-  sleep 5 seconds   预计还需 ",datetime.timedelta(seconds=int(time_remain)),"   已用时 ",datetime.timedelta(seconds=int(time_used)))
-		time.sleep(5)
+		time_remain = ( time_used / jindu ) * (1 - jindu) + 1
+		print("-  sleep 1 seconds   预计还需 ",datetime.timedelta(seconds=int(time_remain)),"   已用时 ",datetime.timedelta(seconds=int(time_used)))
+		time.sleep(1)
 
 print(seprate)
 
