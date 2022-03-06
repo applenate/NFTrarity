@@ -175,7 +175,7 @@ def getNFT_info(tokenid,uri):
 			if trait_count not in data_traits["traits_count"].keys() :
 				data_traits["traits_count"][trait_count] = 1
 			else :
-				data_traits["traits_count"][trait_count] += 100		
+				data_traits["traits_count"][trait_count] += 1	
 
 	#没有属性的，包括没有属性字段的
 	else:
